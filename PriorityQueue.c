@@ -2,7 +2,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
-#include "Priority_Queue.h"
+#include "PriorityQueue.h"
 #include "tree.h"
 
 //Make only one new priority queue
@@ -17,7 +17,7 @@ void* create_priority_queue()
 // Putting item on queue
 void* enqueue(priority_queue *pq, Tree_Node *aux1)
 {
-  pq_node *new_node = (node*) malloc(sizeof(node));
+  pq_node *new_node = (pq_node*) malloc(sizeof(pq_node));
   pq->size++;
   new_node->item = aux1;
   new_node->priority = aux1->priority;
@@ -45,19 +45,19 @@ void* dequeue(priority_queue *pq)
   } else {
     pq->size--;
     Tree_Node *aux = pq->head->item;
-    pq->head = pq->first->next;
+    pq->head = pq->head->next;
     return (Tree_Node*)aux;
   }
 }
 
 //Verifying that the queue is empty
 void* is_empty(priority_queue *pq){
-  return (int*) (pq->head == NULL);
+  return (pq->head == NULL) ? ((int*)0) : ((int*)1);
 }
 
 //Checking the size of the priority queue
 void* size_pq(priority_queue *pq){
-  return (int*) pq->size;
+  return &(pq->size); //caso eu queira passar passar o valor será por exemplo: printf("%d\n",*(int*)size_pq(pq));
 }
 
 //Printing the last item queue to the first
