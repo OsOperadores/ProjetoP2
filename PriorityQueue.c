@@ -2,33 +2,38 @@
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
+#include "Priority_Queue.h"
+#include "tree.h"
 
 //criando somente uma fila nova
 void* create_priority_queue()
 {
   priority_queue *new_queue = (priority_queue*) malloc(sizeof(priority_queue));
   new_queue->head = NULL;
+  new_queue->size = 0;
   return (priority_queue*) new_queue;
 }
 
 // Colocar item na fila
-void enqueue(priority_queue *pq, int i, int p)
+void* enqueue(priority_queue *pq, Tree_Node *aux1)
 {
-  node *new_node = (node*) malloc(sizeof(node));
-  new_node->item = i;
-  new_node->priority = p;
-    if ((is_empty(pq)) || (p > pq->head->priority)) {
+  pq_node *new_node = (node*) malloc(sizeof(node));
+  pq->size++;
+  new_node->item = aux1;
+  new_node->priority = aux1->priority;
+    if ((is_empty(pq)) || (pq->head->priority >= aux1->priority)) {
       new_node->next = pq->head;
       pq->head = new_node;
-  } else {
-      node *current = pq->head;
-    while ((current->next != NULL) &&
-     (current->next->priority > p)) {
-      current = current->next;
-    }
-      new_node->next = current->next;
-      current->next = new_node;
+      return (priority_queue*) pq;
   }
+  pq_node *aux2 = pq->head;
+
+  while(aux2->next!= NULL && aux2->next->priority < aux1->priority){
+    aux2 = aux2->next;
+  }
+  new_node->next = aux2->next;
+  aux2->next = new_node;
+  return (priority_queue*) pq;
 }
 
 //retirar o ultimo da fila
@@ -38,33 +43,27 @@ void* dequeue(priority_queue *pq)
     printf("Priority Queue underflow");
     return NULL;
   } else {
-    node *node = pq->head;
-    pq->head = pq->head->next;
-    node->next = NULL;
-    return node;
+    pq->size--;
+    Tree_Node *aux = pq->head->item;
+    pq->head = pq->first->next;
+    return (Tree_Node*)aux;
   }
 }
 
-/*int maximum(priority_queue *pq) não sei o motivo do maximum(retirado do slide do marcio)
-{
-  if (is_empty(pq)) {
-      printf("Priority Queue underflow");
-      return -1;
-  } else {
-      return pq->head->i;
-  }
-}*/
-
 //Verificando se a fila está vazia
 void* is_empty(priority_queue *pq){
-  if (pq->head == NULL) return (int*) 1;
-  else return (int*) 0;
+  return (int*) (pq->head == NULL);
+}
+
+//Verificando o tamanho da priority queue
+void* size_pq(priority_queue *pq){
+  return (int*) pq->size;
 }
 
 // printando a fila do último item adicionado até o primeiro
 void print_priority_queue(priority_queue *pq){
   if(!is_empty(pq)){
-    printf("item: %d ", pq->head->item);
+    printf("Não está vazia\n");
     printf("prioridade: %d ", pq->head->priority);
     printf("\n");
     pq->head = pq->head->next;
