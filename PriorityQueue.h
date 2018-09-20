@@ -18,7 +18,6 @@ typedef struct priority_queue {
 void* create_priority_queue();
 void* enqueue(priority_queue *pq, Tree_Node * aux);
 void* dequeue(priority_queue *pq);
-//int maximum(priority_queue *pq);
 void* is_empty(priority_queue *pq);
 void print_priority_queue(priority_queue *pq);
 void* size_pq(priority_queue *pq);

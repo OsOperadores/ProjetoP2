@@ -5,7 +5,7 @@
 #include "Priority_Queue.h"
 #include "tree.h"
 
-//criando somente uma fila nova
+//Make only one new priority queue
 void* create_priority_queue()
 {
   priority_queue *new_queue = (priority_queue*) malloc(sizeof(priority_queue));
@@ -14,7 +14,7 @@ void* create_priority_queue()
   return (priority_queue*) new_queue;
 }
 
-// Colocar item na fila
+// Putting item on queue
 void* enqueue(priority_queue *pq, Tree_Node *aux1)
 {
   pq_node *new_node = (node*) malloc(sizeof(node));
@@ -36,7 +36,7 @@ void* enqueue(priority_queue *pq, Tree_Node *aux1)
   return (priority_queue*) pq;
 }
 
-//retirar o ultimo da fila
+//Remove the last in the queue
 void* dequeue(priority_queue *pq)
 {
   if (is_empty(pq)) {
@@ -50,17 +50,17 @@ void* dequeue(priority_queue *pq)
   }
 }
 
-//Verificando se a fila está vazia
+//Verifying that the queue is empty
 void* is_empty(priority_queue *pq){
   return (int*) (pq->head == NULL);
 }
 
-//Verificando o tamanho da priority queue
+//Checking the size of the priority queue
 void* size_pq(priority_queue *pq){
   return (int*) pq->size;
 }
 
-// printando a fila do último item adicionado até o primeiro
+//Printing the last item queue to the first
 void print_priority_queue(priority_queue *pq){
   if(!is_empty(pq)){
     printf("Não está vazia\n");
