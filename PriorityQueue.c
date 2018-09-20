@@ -57,7 +57,7 @@ void* is_empty(priority_queue *pq){
 
 //Checking the size of the priority queue
 void* size_pq(priority_queue *pq){
-  return &(pq->size); //caso eu queira passar passar o valor será por exemplo: printf("%d\n",*(int*)size_pq(pq));
+  return &(pq->size); //if I want to return the value in main, for example: printf("%d\n",*(int*)size_pq(pq));
 }
 
 //Printing the last item queue to the first
