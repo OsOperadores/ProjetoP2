@@ -45,7 +45,7 @@ void* size_tree(Tree_Node* tree){ //Counts the node size of the tree.
 
 void print_preorder_tree(Tree_Node * tree){ //Print the tree in pre-order at terminal
     if(tree!=NULL){
-        if((tree->ch=='*' || tree->ch=='\\') && isLeaf(tree)) // If the char type is a "*" or "\" it must print a "\" because it's a scape character
+        if((tree->ch=='*' || tree->ch=='\\') && isLeaf(tree)) // Ari alterá o if - If the char type is a "*" or "\" it must print a "\" because it's a scape character
             printf("\\%c", tree->ch);
         else
             printf("%c", tree->ch);
