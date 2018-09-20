@@ -30,7 +30,7 @@ void* create_tree(){ //Create new tree.
 }
 
 void* isLeaf(Tree_Node * tree){ //Checking if node of tree is a leaf
-    return (int*) (tree->isLeaf); //BUG
+    return (&(tree->isLeaf)); //BUG resolved, caso eu queira passar passar o valor será por exemplo: printf("%d\n",*(int*)isLeaf(log));
 }
 
 void* size_tree(Tree_Node* tree){ //Counts the node size of the tree.
@@ -66,9 +66,4 @@ void print_preorder_tree_in_file(Tree_Node * tree, FILE *file){ //Print the tree
         print_preorder_tree_in_file(tree->right,file);
     }
 
-}
-
-int main() {
-
-  return 0;
 }
