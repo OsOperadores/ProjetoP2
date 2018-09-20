@@ -3,38 +3,12 @@
 #include <math.h>
 #include <stdlib.h>
 
-typedef struct node {
-  int item;
-  int priority;
-  struct node *next;
-}node;
-
-typedef struct priority_queue {
-  node *head;
-}priority_queue;
-
-
-//FUNCOES
-void* create_priority_queue();
-void enqueue(priority_queue *pq, int i, int p);
-void* dequeue(priority_queue *pq);
-//int maximum(priority_queue *pq);
-void* is_empty(priority_queue *pq);
-void print_priority_queue(priority_queue *pq);
-
-int main() {
-  int a,b=0,k;
-  priority_queue *pq = (priority_queue*) malloc(sizeof(priority_queue));
-  pq = create_priority_queue();
-  while(1){
-    printf("Qual é o item?\n");
-    scanf("%d", &a);
-    if(a==-1) break;
-    enqueue(pq,a,b);
-    b++;
-  }
-  print_priority_queue(pq);
-  return 0;
+//criando somente uma fila nova
+void* create_priority_queue()
+{
+  priority_queue *new_queue = (priority_queue*) malloc(sizeof(priority_queue));
+  new_queue->head = NULL;
+  return (priority_queue*) new_queue;
 }
 
 // Colocar item na fila
@@ -71,7 +45,7 @@ void* dequeue(priority_queue *pq)
   }
 }
 
-/*int maximum(priority_queue *pq)
+/*int maximum(priority_queue *pq) não sei o motivo do maximum(retirado do slide do marcio)
 {
   if (is_empty(pq)) {
       printf("Priority Queue underflow");
@@ -80,13 +54,6 @@ void* dequeue(priority_queue *pq)
       return pq->head->i;
   }
 }*/
-//criando somente uma fila nova
-void* create_priority_queue()
-{
-  priority_queue *new_queue = (priority_queue*) malloc(sizeof(priority_queue));
-  new_queue->head = NULL;
-  return (priority_queue*) new_queue;
-}
 
 //Verificando se a fila está vazia
 void* is_empty(priority_queue *pq){
