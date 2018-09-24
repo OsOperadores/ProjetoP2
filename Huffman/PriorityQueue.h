@@ -1,23 +1,19 @@
+#ifndef PRIORITYQUEUE_H_INCLUDED
+#define PRIORITYQUEUE_H_INCLUDED
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "tree.h"
-
-typedef struct pq_node {
-  Tree_Node * item;
-  int priority;
-  struct pq_node *next;
-}pq_node;
-
-typedef struct priority_queue {
-  pq_node * head;
-  int size;
-}priority_queue;
+#include "zip.h"
+#include "struct.h"
 
 //FUNCOES
 void* create_priority_queue();
-void* enqueue(priority_queue *pq, Tree_Node * aux);
-void* dequeue(priority_queue *pq);
-void* is_empty(priority_queue *pq);
-void print_priority_queue(priority_queue *pq);
-void* size_pq(priority_queue *pq);
+void* create_node_tree(unsigned char ch, unsigned int priority);
+void enqueue_node(PriorityQueue *pq, unsigned char ch, unsigned int priority);
+void enqueue_daddy_node(PriorityQueue *pq, Huffman * dadd_node);
+void* dequeue_node(PriorityQueue *pq);
+void* is_empty(PriorityQueue *pq);
+void  create_queue_array(PriorityQueue *new_queue, unsigned int str[]);
+
+#endif
