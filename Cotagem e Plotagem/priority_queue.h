@@ -1,4 +1,4 @@
-#ifndef PRIORITY_QUEUE_H_
+#ifndef PRIORITY_QUEUE_H_ // Keep the Header and preclude cyclical inclusion
 #define PRIORITY_QUEUE_H_
 
 priority_queue* create_priority_queue();
