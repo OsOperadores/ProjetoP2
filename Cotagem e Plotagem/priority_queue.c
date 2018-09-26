@@ -1,16 +1,16 @@
 #include "priority_queue.h"
 
 // List
-struct node {
+typedef struct node {
 	int item;
 	int priority;
-	node *next;	// Pointer type "node"
-};
+	struct node *next;	// Pointer type "node"
+}node;
 
 // Priority Queue
-struct priority_queue {
+typedef struct priority_queue {
 	node *head;
-};
+}priority_queue;
 
 void enqueue(priority_queue *pq, int i, int p)
 {
@@ -56,7 +56,16 @@ int maximum (priority_queue *pq)
 
 int is_empty(priority_queue *pq)
 {
-
+  return (pq->head == NULL); // Return 1 if is empty or return 0 if isn't empty
 }
 
-void print_priority_queue(priority_queue *pq);
+//Exemplo de printar no terminal
+void print_priority_queue(priority_queue *pq){ // É bom colocar para isso printar em um arquivo texto.
+  if(!is_empty(pq)){
+    printf("item: %d ", pq->head->item);
+    printf("prioridade: %d ", pq->head->priority);
+    printf("\n");
+    pq->head = pq->head->next;
+    print_priority_queue(pq);
+  }
+}
