@@ -1,46 +1,51 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "Tree.h"
 #include "PriorityQueue.h"
-#include "struct.h"
+
+struct tree{
+    unsigned int size_node;
+    unsigned int priority;
+    unsigned char ch;
+    Huffman *left;
+    Huffman *right;
+    Huffman *next;
+};
 
 //create one node of empty tree.
-void* create_tree_node(){
+Huffman* create_tree_node(){
     Huffman * a = (Huffman*)malloc(sizeof(Huffman));
     a->left = NULL;
     a->right = NULL;
     a->next = NULL;
     a->priority = 0;
     a->size_node = 0;
-    return (void*) a;
+    return a;
 }
 
-void* create_daddy_node(Huffman *one, Huffman *two){
+Huffman* create_daddy_node(Huffman *one, Huffman *two){
   Huffman *daddy_node = create_node_tree('\\', one->priority + two->priority);
   daddy_node->left = two;
   daddy_node->right = one;
   daddy_node->next = NULL;
-  return (void*)daddy_node;
+  return daddy_node;
 }
 
-void* Do_Huffman(PriorityQueue *pq){
+Huffman* Do_Huffman(PriorityQueue *pq){
   Huffman* daddy_node = create_tree_node();
   while(pq->head->next != NULL){
 
-    daddy_node = (Huffman*)create_daddy_node((Huffman*)dequeue_node(pq),(Huffman*)dequeue_node(pq));
+    daddy_node = create_daddy_node(dequeue(pq),dequeue(pq));
     enqueue_daddy_node(pq,daddy_node);
   }
-  return (void*) pq->head;
+  return pq->head;
 }
 
-void* is_tree_empty(Huffman* tree){
-  return (tree == NULL) ? ((void*)0) : ((void*)1);
+int is_tree_empty(Huffman* tree){
+  return (tree->size_node == 0);
 }
 
 //Checking if node of tree is a leaf.
-void* isLeaf(Huffman * tree){
-    return ((tree->left == NULL) && (tree->right == NULL)) ? ((void*)0) : ((void*)1);
+int isLeaf(Huffman * tree){
+    return ((tree->right == NULL) && (tree->left == NULL));
 }
 
 void print_at_home(unsigned char home[][256], unsigned char current[], unsigned char ch, int status){
@@ -89,7 +94,7 @@ void print_tree_in_file(Huffman* tree,int* size_tree, FILE* file){
   }
 }
 
-void* comeback_tree(FILE* zip_File, Huffman* tree){
+Huffman* comeback_tree(FILE* zip_File, Huffman* tree){
   unsigned char ch;
   fread(&ch,sizeof(unsigned char), 1 , zip_File);
 
@@ -107,5 +112,5 @@ void* comeback_tree(FILE* zip_File, Huffman* tree){
       tree = create_node_tree(ch,0);
     }
   }
-  return (void*) tree;
+  return tree;
 }

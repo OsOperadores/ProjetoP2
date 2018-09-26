@@ -1,16 +1,14 @@
-#ifndef ZIP_H_INCLUDED
+#ifndef ZIP_H_INCLUDED // guardas de cabeçalho, impedem inclusões cíclicas
 #define ZIP_H_INCLUDED
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "Tree.h"
-#include "PriorityQueue.h"
-#include "struct.h"
-
-//typedef struct tree Huffman;
 
 #define Max_array 256
 #define Max_string 256
+
+typedef struct tree Huffman;
 
 void start_hash_table(unsigned char home[][256]);
 int try_open_file(FILE* file);

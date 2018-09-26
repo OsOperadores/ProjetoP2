@@ -1,26 +1,36 @@
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
 #include <stdlib.h>
-#include "Tree.h"
 #include "PriorityQueue.h"
-#include "struct.h"
+#include "Tree.h"
+
+struct tree{
+    unsigned int size_node;
+    unsigned int priority;
+    unsigned char ch;
+    Huffman *left;
+    Huffman *right;
+    Huffman *next;
+};
 
 //criando somente uma fila nova
-void* create_priority_queue()
+PriorityQueue* create_priority_queue()
 {
   PriorityQueue *new_queue = (PriorityQueue*) calloc(1,sizeof(PriorityQueue));
   new_queue->size_node = 0;
   new_queue->head = NULL;
-  return (void*) new_queue;
+  return new_queue;
 }
 
-void* create_node_tree(unsigned char ch, unsigned int priority){
+Huffman* create_node_tree(unsigned char ch, unsigned int priority){
   Huffman* node = (Huffman*) calloc(1,sizeof(Huffman));
   node->priority = priority;
   node->ch = ch;
   node->left = node->right = node->next = NULL;
-  return (void*) node;
+  return node;
+}
+
+//Verificando se a fila está vazia
+int is_empty(PriorityQueue *pq){
+  return (pq->head == NULL);
 }
 
 // Colocar item na fila
@@ -59,20 +69,15 @@ void enqueue_daddy_node(PriorityQueue *pq, Huffman * daddy_node){
 }
 
 //retirar o ultimo da fila
-void* dequeue(PriorityQueue *pq){
+Huffman* dequeue(PriorityQueue *pq){
 
   if (!(is_empty(pq))) {
     Huffman* node = pq->head;
     pq->head = pq->head->next;
     node->next = NULL;
-    return (void*) node;
+    return node;
   }
-  return (void*)NULL;
-}
-
-//Verificando se a fila está vazia
-void* is_empty(PriorityQueue *pq){
-  return (pq->head == NULL) ? ((void*)1) : ((void*)0);
+  return NULL;
 }
 
 void  create_queue_array(PriorityQueue *new_queue, unsigned int str[]){

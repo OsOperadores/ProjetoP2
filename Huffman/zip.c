@@ -1,9 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include "zip.h"
 #include "Tree.h"
 #include "PriorityQueue.h"
-#include "zip.h"
 
 void start_hash_table(unsigned char home[][256]){
   int a;
@@ -112,14 +110,13 @@ void zip_file(){
   printf("Wait a minute...\n\n");
 
   priority_to_table(normal_file, priority_array);
-  printf(" priority_to_table\n");
 
   PriorityQueue* pq = create_priority_queue();
-  printf("create_priority_queue\n");
+
   create_queue_array(pq, priority_array);
-  printf("create_queue_array\n");
+
   Huffman* tree = Do_Huffman(pq);
-  printf("do_huffman\n");
+
   unsigned char home [Max_string][Max_string]; // Keep the ways
   unsigned char current[Max_string]; // Array keep temp ways
 
