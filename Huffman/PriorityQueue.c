@@ -2,16 +2,17 @@
 #include "PriorityQueue.h"
 #include "Tree.h"
 
+//Struct of Huffman Tree with nodes
 struct tree{
-    unsigned int size_node;
-    unsigned int priority;
-    unsigned char ch;
+    unsigned int size_node; // Size of node
+    unsigned int priority;  // Frequency of char in the text
+    unsigned char ch;       // Character
     Huffman *left;
     Huffman *right;
     Huffman *next;
 };
 
-//criando somente uma fila nova
+//Create only one Priority Pointer for a Queue
 PriorityQueue* create_priority_queue()
 {
   PriorityQueue *new_queue = (PriorityQueue*) calloc(1,sizeof(PriorityQueue));
@@ -20,6 +21,7 @@ PriorityQueue* create_priority_queue()
   return new_queue;
 }
 
+//Create Node Huffman Tree
 Huffman* create_node_tree(unsigned char ch, unsigned int priority){
   Huffman* node = (Huffman*) calloc(1,sizeof(Huffman));
   node->priority = priority;
@@ -28,12 +30,12 @@ Huffman* create_node_tree(unsigned char ch, unsigned int priority){
   return node;
 }
 
-//Verificando se a fila está vazia
+//Checking if the Priority Queue is empty
 int is_empty(PriorityQueue *pq){
   return (pq->head == NULL);
 }
 
-// Colocar item na fila
+// Put item in the Priority Queue
 void enqueue_node(PriorityQueue *pq, unsigned char ch, unsigned int priority){
   Huffman *new_node = create_node_tree(ch,priority);
 
@@ -52,6 +54,7 @@ void enqueue_node(PriorityQueue *pq, unsigned char ch, unsigned int priority){
   pq->size_node++;
 }
 
+// Enqueue a new dad(like a tree) for the Priority Queue
 void enqueue_daddy_node(PriorityQueue *pq, Huffman * daddy_node){
   if(is_empty(pq) || pq->head->priority >= daddy_node->priority){
     daddy_node->next = pq->head;
@@ -68,7 +71,7 @@ void enqueue_daddy_node(PriorityQueue *pq, Huffman * daddy_node){
   pq->size_node++;
 }
 
-//retirar o ultimo da fila
+// Withdraw the last in the Priority Queue
 Huffman* dequeue(PriorityQueue *pq){
 
   if (!(is_empty(pq))) {
@@ -80,6 +83,7 @@ Huffman* dequeue(PriorityQueue *pq){
   return NULL;
 }
 
+// Create Queue with the type Array
 void  create_queue_array(PriorityQueue *new_queue, unsigned int str[]){
   int a;
   for(a=0; a < 256; a++){

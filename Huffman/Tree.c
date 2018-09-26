@@ -1,6 +1,7 @@
 #include "Tree.h"
 #include "PriorityQueue.h"
 
+// Struct of Huffman Tree with nodes
 struct tree{
     unsigned int size_node;
     unsigned int priority;
@@ -10,7 +11,7 @@ struct tree{
     Huffman *next;
 };
 
-//create one node of empty tree.
+// Create one node of empty tree.
 Huffman* create_tree_node(){
     Huffman * a = (Huffman*)malloc(sizeof(Huffman));
     a->left = NULL;
@@ -21,6 +22,7 @@ Huffman* create_tree_node(){
     return a;
 }
 
+// Create one node for new dad tree.
 Huffman* create_daddy_node(Huffman *one, Huffman *two){
   Huffman *daddy_node = create_node_tree('\\', one->priority + two->priority);
   daddy_node->left = two;
@@ -29,16 +31,21 @@ Huffman* create_daddy_node(Huffman *one, Huffman *two){
   return daddy_node;
 }
 
+// Construct the Huffman Tree with Priority Queue
 Huffman* Do_Huffman(PriorityQueue *pq){
-  Huffman* daddy_node = create_tree_node();
+  Huffman* daddy_node = create_tree_node();  //Create a new pointer for a node
+  // While Priority Queue isn't empty
   while(pq->head->next != NULL){
-
+    // Dequeue the first and second node and create a new dad for them
     daddy_node = create_daddy_node(dequeue(pq),dequeue(pq));
+    // Enqueue the new dad to Priority Queue
     enqueue_daddy_node(pq,daddy_node);
   }
+  //Return the root of Huffman Tree
   return pq->head;
 }
 
+// Checking if Huffman Tree is empty
 int is_tree_empty(Huffman* tree){
   return (tree->size_node == 0);
 }
@@ -47,6 +54,7 @@ int is_tree_empty(Huffman* tree){
 int isLeaf(Huffman * tree){
     return ((tree->right == NULL) && (tree->left == NULL));
 }
+
 
 void print_at_home(unsigned char home[][256], unsigned char current[], unsigned char ch, int status){
   int a;

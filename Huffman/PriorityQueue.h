@@ -5,13 +5,14 @@
 
 typedef struct tree Huffman;
 
+//Struct of Priority Queue
 typedef struct Priority_Queue{
   Huffman *head;
   unsigned int size_node;
 }PriorityQueue;
 
 
-//FUNCOES
+//Functions
 PriorityQueue* create_priority_queue();
 Huffman* create_node_tree(unsigned char ch, unsigned int priority);
 void enqueue_node(PriorityQueue *pq, unsigned char ch, unsigned int priority);
