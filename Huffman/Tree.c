@@ -24,7 +24,7 @@ Huffman* create_tree_node(){
 
 // Create one node for new dad tree.
 Huffman* create_daddy_node(Huffman *one, Huffman *two){
-  Huffman *daddy_node = create_node_tree('\\', one->priority + two->priority);
+  Huffman *daddy_node = create_node_tree('*', one->priority + two->priority); // Save the dad sub-tree as "*"
   daddy_node->left = two;
   daddy_node->right = one;
   daddy_node->next = NULL;
