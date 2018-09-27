@@ -19,7 +19,7 @@ int try_open_file(FILE* file){
 }
 
 void priority_to_table(FILE* file, unsigned int* priority_array){
-  unsigned ch;
+  unsigned char ch;
   while (fread(&ch,sizeof(unsigned char), 1, file) == 1) {
     priority_array[ch]++;
   }
@@ -84,15 +84,30 @@ void zip_file(){
 
   char normal_file_name[Max_string];  // String with the namor of normal file
   char zip_file_name[Max_string];     // String with the name of compressed file
+  char *pch;
 
-  unsigned int priority_array[Max_array] = {0}; // Array of normal file with priority of bytes
+  int i;
+
+  unsigned int priority_array[Max_array]; // Array of normal file with priority of bytes
+
+  for(i=0; i < 256; i++){
+    priority_array[i] = 0;
+  }
   printf("Digite o nome do arquivo que deseja comprimir (com a extensão):\n\n");
   printf("Exemplo: example.txt\n > ");
   scanf("%[^\n]s", normal_file_name);
   getchar();
-
+  //printf("%s\n", normal_file_name);
   strcpy(zip_file_name, normal_file_name);
-  strcat(zip_file_name, ".huff");
+  pch = strrchr(zip_file_name,'.'); // Returns a pointer to the last occurrence of character in the C string str.
+  zip_file_name[(pch-zip_file_name+1)] = 'h' ;
+  zip_file_name[(pch-zip_file_name+2)] = 'u' ;
+  zip_file_name[(pch-zip_file_name+3)] = 'f' ;
+  zip_file_name[(pch-zip_file_name+4)] = 'f' ;
+  //zip_file_name[(pch-zip_file_name+5)] = '\n' ;
+  zip_file_name[(pch-zip_file_name+5)] = '\0' ;
+  //strcat(zip_file_name, ".huff");
+  //printf("%s\n", zip_file_name);
 
   normal_file = fopen(normal_file_name, "rb");
 
@@ -125,10 +140,10 @@ void zip_file(){
 
   int* size_tree = (int*) malloc(sizeof(int)); //Pointer to get tree_size
 
-  zip_file = fopen(normal_file_name, "wb");   // Open the file with mode binary write
+  zip_file = fopen(zip_file_name, "wb");   // Create the file with mode binary write
 
   create_huffman_header(zip_file,tree,size_tree); // Create header
-  print_zip_at_file(normal_file,zip_file,home,*size_tree); //Writ the compress file
+  print_zip_at_file(normal_file,zip_file, home, *size_tree); //Write the compress file
 
   printf(" Arquivo compactado!\n\n");
 
