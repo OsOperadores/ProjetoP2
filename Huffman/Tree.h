@@ -15,5 +15,5 @@ void create_hash_table(unsigned char home[][256], unsigned char current[], Huffm
 void print_at_home(unsigned char home[][256], unsigned char current[], unsigned char ch, int status);
 void print_tree_in_file(Huffman* tree,int* size_tree, FILE* file);
 Huffman* comeback_tree(FILE* zip_File, Huffman* tree);
-
+void print_preorder_tree(Huffman * tree);
 //#endif

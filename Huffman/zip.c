@@ -41,7 +41,7 @@ int is_bit_i_set(unsigned char c, int i){
   return (c & (1 << i));
 }
 
-void print_zip_at_file(FILE* normal_file, FILE* zip_File, unsigned char home[][256], int size_tree){
+void print_zip_at_file(FILE* normal_file, FILE* zip_File, unsigned char home[][256], int size_tree, int* trash){
 
   unsigned char ch = 0; // ch to print on file(00000000)
   unsigned char ch_help; // ch_help to read the zip_file
@@ -75,6 +75,8 @@ void print_zip_at_file(FILE* normal_file, FILE* zip_File, unsigned char home[][2
   rewind(zip_File);
   fwrite(&size_trash, sizeof(unsigned char), 1, zip_File); // Write the size of trash on file
   fwrite(&tree_size_to_file, sizeof(unsigned char), 1, zip_File); // Write the size of Huffman tree on file
+  size_trash = size_trash >> 5;
+  (*trash) = size_trash;
 }
 
 void zip_file(){
@@ -139,14 +141,20 @@ void zip_file(){
   create_hash_table(home,current,tree,0); // Create a hash about Huffman Tree
 
   int* size_tree = (int*) malloc(sizeof(int)); //Pointer to get tree_size
-
+  int* trash = (int*) malloc(sizeof(int));
+  (*trash) = 0;
+  (*size_tree) = 0;
+  
   zip_file = fopen(zip_file_name, "wb");   // Create the file with mode binary write
 
   create_huffman_header(zip_file,tree,size_tree); // Create header
-  print_zip_at_file(normal_file,zip_file, home, *size_tree); //Write the compress file
+  print_zip_at_file(normal_file,zip_file, home, *size_tree, trash); //Write the compress file
 
-  printf(" Arquivo compactado!\n\n");
-
+  printf("\n Arquivo compactado!\n\n");
+  print_preorder_tree(tree);
+  printf("\n");
+  printf("Size of tree: %d\n", (*size_tree));
+  printf("Size of Trash: %d\n", (*trash));
   fclose(normal_file);
   fclose(zip_file);
 

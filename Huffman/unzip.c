@@ -31,7 +31,7 @@ void comeback_original(FILE* zip_file, FILE* o_original, Huffman* tree, int size
 
   Huffman* tree_temp;
   unsigned char ch, ch_temp;
-  int a;
+  short int a;
 
   tree_temp = tree;
 
@@ -40,7 +40,7 @@ void comeback_original(FILE* zip_file, FILE* o_original, Huffman* tree, int size
 
   while(fread(&ch, sizeof(unsigned char), 1, zip_file) == 1){
 
-    for(a = 8; a > 0; a--){
+    for(a = 7; a >= 0; a--){
       if (isLeaf(tree_temp)) {
         fwrite(&(tree_temp->ch), sizeof(unsigned char), 1, o_original);
         tree_temp = tree;
@@ -55,7 +55,7 @@ void comeback_original(FILE* zip_file, FILE* o_original, Huffman* tree, int size
     ch_temp = ch;
   }
 
-  for( a = 8; a > size_trash - 1; a--){
+  for( a = 7; a >= size_trash - 1; a--){
     if(isLeaf(tree_temp)){
       fwrite(&(tree_temp->ch), sizeof(unsigned char), 1, o_original);
       tree_temp = tree;
@@ -106,7 +106,7 @@ void unzip_file(){
   unsigned char size_trash;
   unsigned char size_tree;
 
-  int tree_temp = 0;
+  int* tree_temp = (int*) malloc(sizeof(int));
   int trash_temp = 0;
 
   fread(&size_trash, sizeof(unsigned char), 1, zip_file);
@@ -115,12 +115,14 @@ void unzip_file(){
   size_trash = (size_trash >> 5);
 
   trash_temp = size_trash;
-  tree_temp = size_tree;
-  //printf("Trash_temp: %d\n", trash_temp);
-  //printf("Tree_temp: %d\n", tree_temp);
+  (*tree_temp) = size_tree;
+  printf("Size of Tree: %d\n", (*tree_temp));
+  printf("Size of Trash: %d\n", trash_temp);
 
   Huffman* tree = create_tree_node();
   tree = comeback_tree(zip_file, tree);
+
+  print_preorder_tree(tree);
 
   unzip_file = fopen(unzip_file_name, "wb");
   comeback_original( zip_file, unzip_file, tree, trash_temp);
@@ -128,6 +130,6 @@ void unzip_file(){
   fclose(zip_file);
   fclose(unzip_file);
 
-  printf(" Arquivo descompactado!\n\n");
+  printf("\n Arquivo descompactado!\n\n");
 
 }

@@ -80,26 +80,42 @@ void create_hash_table(unsigned char home[][256], unsigned char current[], Huffm
 }
 
 void print_tree_in_file(Huffman* tree,int* size_tree, FILE* file){
-  if (isLeaf(tree)) {
-    if (tree->ch == '\\' || tree->ch == '*') {
-      unsigned char ch = '\\';
-      (*size_tree)++;
-      fwrite(&ch, sizeof(unsigned char),1,file);
+    if (isLeaf(tree)) {
+
+        if (tree->ch == '\\' || tree->ch == '*') {
+
+            unsigned char ch = '\\';
+            (*size_tree)++;
+            fwrite(&ch, sizeof(unsigned char), 1, file);
+        }
+
+        (*size_tree)++;
+        fwrite(&tree->ch, sizeof(unsigned char), 1, file);
+
+        return;
     }
+
     (*size_tree)++;
     fwrite(&tree->ch, sizeof(unsigned char), 1, file);
 
-    return ;
-  }
+    if (tree->left != NULL) {
+        print_tree_in_file(tree->left, size_tree, file);
+    }
 
-  (*size_tree)++;
-  fwrite(&tree->ch, sizeof(unsigned char), 1, file);
-  if(tree->left != NULL){
-    print_tree_in_file(tree->left, size_tree, file);
-  }
-  if(tree->right != NULL){
-    print_tree_in_file(tree->right, size_tree, file);
-  }
+    if (tree->right != NULL) {
+        print_tree_in_file(tree->right, size_tree, file);
+    }
+}
+
+void print_preorder_tree(Huffman * tree){
+    if(tree!=NULL){
+        if((tree->ch=='*' || tree->ch=='\\'))
+            printf("%c", tree->ch);
+        else
+            printf("[%c]", tree->ch);
+        print_preorder_tree(tree->left);
+        print_preorder_tree(tree->right);
+    }
 }
 
 Huffman* comeback_tree(FILE* zip_File, Huffman* tree){
@@ -108,17 +124,19 @@ Huffman* comeback_tree(FILE* zip_File, Huffman* tree){
 
   if(ch == '*'){
     tree = create_node_tree(ch,0);
+
     tree->left = comeback_tree(zip_File, tree->left);
     tree->right = comeback_tree(zip_File, tree->right);
   }
   else{
-    if (ch == '\\') {
-      fread(&ch,sizeof(unsigned char), 1,zip_File);
-      tree = create_node_tree(ch,0);
+    if(ch == '\\'){
+      fread(&ch, sizeof(unsigned char), 1, zip_File);
+      tree = create_node_tree(ch, 0);
     }
-    else{
-      tree = create_node_tree(ch,0);
-    }
+    else 
+    tree = create_node_tree(ch,0);
   }
+    
+  
   return tree;
 }
