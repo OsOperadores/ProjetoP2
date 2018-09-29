@@ -116,13 +116,11 @@ void unzip_file(){
 
   trash_temp = size_trash;
   (*tree_temp) = size_tree;
-  printf("Size of Tree: %d\n", (*tree_temp));
-  printf("Size of Trash: %d\n", trash_temp);
 
   Huffman* tree = create_tree_node();
   tree = comeback_tree(zip_file, tree);
 
-  print_preorder_tree(tree);
+  //print_preorder_tree(tree);
 
   unzip_file = fopen(unzip_file_name, "wb");
   comeback_original( zip_file, unzip_file, tree, trash_temp);
@@ -131,5 +129,7 @@ void unzip_file(){
   fclose(unzip_file);
 
   printf("\n Arquivo descompactado!\n\n");
+  printf("Size of Tree: %d  ////", (*tree_temp));
+  printf("  Size of Trash: %d\n", trash_temp);
 
 }

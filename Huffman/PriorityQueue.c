@@ -39,13 +39,13 @@ int is_empty(PriorityQueue *pq){
 void enqueue_node(PriorityQueue *pq, unsigned char ch, unsigned int priority){
   Huffman *new_node = create_node_tree(ch,priority);
 
-    if ((is_empty(pq)) || (pq->head->priority) >= priority) {
+    if (is_empty(pq) || pq->head->priority >= priority) {
       new_node->next = pq->head;
       pq->head = new_node;
 
   } else {
       Huffman *current = pq->head;
-    while ((current->next != NULL) && (current->next->priority < priority)) {
+    while (current->next != NULL && current->next->priority < priority) {
       current = current->next;
     }
       new_node->next = current->next;

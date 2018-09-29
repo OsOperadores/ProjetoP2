@@ -11,6 +11,10 @@ struct tree{
     Huffman *next;
 };
 
+Huffman* create_empty_tree(){
+  return NULL;
+}
+
 // Create one node of empty tree.
 Huffman* create_tree_node(){
     Huffman * a = (Huffman*)malloc(sizeof(Huffman));
@@ -33,7 +37,7 @@ Huffman* create_daddy_node(Huffman *one, Huffman *two){
 
 // Construct the Huffman Tree with Priority Queue
 Huffman* Do_Huffman(PriorityQueue *pq){
-  Huffman* daddy_node = create_tree_node();  //Create a new pointer for a node
+  Huffman* daddy_node = create_empty_tree();  //Create a new pointer for a node
   // While Priority Queue isn't empty
   while(pq->head->next != NULL){
     // Dequeue the first and second node and create a new dad for them

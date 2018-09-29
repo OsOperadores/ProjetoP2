@@ -6,6 +6,7 @@
 typedef struct tree Huffman;
 typedef struct Priority_Queue PriorityQueue;
 
+Huffman* create_empty_tree();
 Huffman* create_tree_node();
 Huffman* create_daddy_node(Huffman *one, Huffman *two);
 int isLeaf(Huffman * tree);

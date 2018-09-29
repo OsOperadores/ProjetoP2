@@ -59,7 +59,7 @@ void print_zip_at_file(FILE* normal_file, FILE* zip_File, unsigned char home[][2
             index = 0; // Reset bits controller
           }
 
-          if (home[ch_help][index] == '1') {
+          if (home[ch_help][str_index] == '1') {
                 ch = set_bit(ch,index); // Set the bit to byte
           }
           str_index++;
@@ -77,6 +77,8 @@ void print_zip_at_file(FILE* normal_file, FILE* zip_File, unsigned char home[][2
   fwrite(&tree_size_to_file, sizeof(unsigned char), 1, zip_File); // Write the size of Huffman tree on file
   size_trash = size_trash >> 5;
   (*trash) = size_trash;
+  
+  return ;
 }
 
 void zip_file(){
@@ -151,12 +153,11 @@ void zip_file(){
   print_zip_at_file(normal_file,zip_file, home, *size_tree, trash); //Write the compress file
 
   printf("\n Arquivo compactado!\n\n");
-  print_preorder_tree(tree);
+  //print_preorder_tree(tree);
   printf("\n");
-  printf("Size of tree: %d\n", (*size_tree));
-  printf("Size of Trash: %d\n", (*trash));
+  printf("Size of tree: %d  ////", (*size_tree));
+  printf("  Size of Trash: %d\n", (*trash));
   fclose(normal_file);
   fclose(zip_file);
-
   return ;
 }
