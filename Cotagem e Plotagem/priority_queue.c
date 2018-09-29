@@ -1,18 +1,13 @@
 #include "priority_queue.h"
 
-// List
-typedef struct node {
-	int item;
-	int priority;
-	struct node *next;	// Pointer type "node"
-}node;
+P_Queue* create_priority_queue(){
+	P_Queue *new_pq = (P_Queue*) malloc(sizeof(P_Queue));
+	new_pq->head = NULL;
+	new_pq->size = 0;
+	return new_pq;
+}
 
-// Priority Queue
-typedef struct priority_queue {
-	node *head;
-}priority_queue;
-
-void enqueue(priority_queue *pq, int i, int p)
+void enqueue(P_Queue *pq, int i, int p)
 {
 	node *new_node = (node*) malloc(sizeof(node));	// Pointer type "node"
 	new_node->item = i;
@@ -29,43 +24,46 @@ void enqueue(priority_queue *pq, int i, int p)
 	new_node->next = current->next;
 	current->next = new_node;
 	}
+	pq->size++;
 }
 
-node* dequeue(priority_queue *pq)
+int dequeue(P_Queue *pq)
 {
 	if (is_empty(pq)) {
 		printf("Priority Queue underflow");
-		return NULL;
+		return 0;
 	} else {
-		node *node = pq->head;
+		int i = pq->head->item;
+		node *temp = pq->head;
 		pq->head = pq->head->next;
-		node->next = NULL;
-	return node;
+		temp->next = NULL;
+		free(temp);
+		return i;
 	}
 }
 
-int maximum (priority_queue *pq)
+int maximum (P_Queue *pq)
 {
 	if (is_empty(pq)) {
 		printf("Priority Queue underflow");
 		return -1;
 	} else {
-		return pq->head->i;
+		return pq->head->item;
 	}
 }
 
-int is_empty(priority_queue *pq)
+int is_empty(P_Queue *pq)
 {
   return (pq->head == NULL); // Return 1 if is empty or return 0 if isn't empty
 }
 
-//Exemplo de printar no terminal
-void print_priority_queue(priority_queue *pq){ // É bom colocar para isso printar em um arquivo texto.
+//Print the list at a new .txt type of file
+void print_priority_queue_at_file(P_Queue *pq, FILE* priority_queue){ 
   if(!is_empty(pq)){
-    printf("item: %d ", pq->head->item);
-    printf("prioridade: %d ", pq->head->priority);
-    printf("\n");
+    fprintf(priority_queue, "Item: %d ", pq->head->item);
+    fprintf(priority_queue, "Prioridade: %d ", pq->head->priority);
+    fprintf(priority_queue, "\n");
     pq->head = pq->head->next;
-    print_priority_queue(pq);
+    print_priority_queue_at_file(pq, priority_queue);
   }
 }
