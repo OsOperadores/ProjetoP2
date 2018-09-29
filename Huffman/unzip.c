@@ -117,8 +117,8 @@ void unzip_file(){
   trash_temp = size_trash;
   (*tree_temp) = size_tree;
 
-  Huffman* tree = create_tree_node();
-  tree = comeback_tree(zip_file, tree);
+  Huffman* tree = (Huffman*)create_tree_node();
+  tree = (Huffman*)comeback_tree(zip_file, tree);
 
   //print_preorder_tree(tree);
 

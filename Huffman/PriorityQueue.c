@@ -13,7 +13,7 @@ struct tree{
 };
 
 //Create only one Priority Pointer for a Queue
-PriorityQueue* create_priority_queue()
+void* create_priority_queue()
 {
   PriorityQueue *new_queue = (PriorityQueue*) calloc(1,sizeof(PriorityQueue));
   new_queue->size_node = 0;
@@ -22,7 +22,7 @@ PriorityQueue* create_priority_queue()
 }
 
 //Create Node Huffman Tree
-Huffman* create_node_tree(unsigned char ch, unsigned int priority){
+void* create_node_tree(unsigned char ch, unsigned int priority){
   Huffman* node = (Huffman*) calloc(1,sizeof(Huffman));
   node->priority = priority;
   node->ch = ch;
@@ -72,7 +72,7 @@ void enqueue_daddy_node(PriorityQueue *pq, Huffman * daddy_node){
 }
 
 // Withdraw the last in the Priority Queue
-Huffman* dequeue(PriorityQueue *pq){
+void* dequeue(PriorityQueue *pq){
 
   if (!(is_empty(pq))) {
     Huffman* node = pq->head;

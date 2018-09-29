@@ -13,11 +13,11 @@ typedef struct Priority_Queue{
 
 
 //Functions
-PriorityQueue* create_priority_queue();
-Huffman* create_node_tree(unsigned char ch, unsigned int priority);
+void* create_priority_queue();
+void* create_node_tree(unsigned char ch, unsigned int priority);
 void enqueue_node(PriorityQueue *pq, unsigned char ch, unsigned int priority);
 void enqueue_daddy_node(PriorityQueue *pq, Huffman * dadd_node);
-Huffman* dequeue(PriorityQueue *pq);
+void* dequeue(PriorityQueue *pq);
 int is_empty(PriorityQueue *pq);
 void  create_queue_array(PriorityQueue *new_queue, unsigned int str[]);
 

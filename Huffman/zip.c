@@ -130,11 +130,11 @@ void zip_file(){
 
   priority_to_table(normal_file, priority_array);
 
-  PriorityQueue* pq = create_priority_queue();
+  PriorityQueue* pq = (PriorityQueue*)create_priority_queue();
 
   create_queue_array(pq, priority_array);
 
-  Huffman* tree = Do_Huffman(pq);
+  Huffman* tree = (Huffman*)Do_Huffman(pq);
 
   unsigned char home [Max_string][Max_string]; // Keep the ways
   unsigned char current[Max_string]; // Array keep temp ways

@@ -11,12 +11,8 @@ struct tree{
     Huffman *next;
 };
 
-Huffman* create_empty_tree(){
-  return NULL;
-}
-
 // Create one node of empty tree.
-Huffman* create_tree_node(){
+void* create_tree_node(){
     Huffman * a = (Huffman*)malloc(sizeof(Huffman));
     a->left = NULL;
     a->right = NULL;
@@ -27,8 +23,8 @@ Huffman* create_tree_node(){
 }
 
 // Create one node for new dad tree.
-Huffman* create_daddy_node(Huffman *one, Huffman *two){
-  Huffman *daddy_node = create_node_tree('*', one->priority + two->priority); // Save the dad sub-tree as "*"
+void* create_daddy_node(Huffman *one, Huffman *two){
+  Huffman *daddy_node = (Huffman*)create_node_tree('*', one->priority + two->priority); // Save the dad sub-tree as "*"
   daddy_node->left = two;
   daddy_node->right = one;
   daddy_node->next = NULL;
@@ -36,12 +32,12 @@ Huffman* create_daddy_node(Huffman *one, Huffman *two){
 }
 
 // Construct the Huffman Tree with Priority Queue
-Huffman* Do_Huffman(PriorityQueue *pq){
-  Huffman* daddy_node = create_empty_tree();  //Create a new pointer for a node
+void* Do_Huffman(PriorityQueue *pq){
+  Huffman* daddy_node = NULL;  //Create a new pointer for a node
   // While Priority Queue isn't empty
   while(pq->head->next != NULL){
     // Dequeue the first and second node and create a new dad for them
-    daddy_node = create_daddy_node(dequeue(pq),dequeue(pq));
+    daddy_node = (Huffman*)create_daddy_node((Huffman*)dequeue(pq),(Huffman*)dequeue(pq));
     // Enqueue the new dad to Priority Queue
     enqueue_daddy_node(pq,daddy_node);
   }
@@ -122,23 +118,23 @@ void print_preorder_tree(Huffman * tree){
     }
 }
 
-Huffman* comeback_tree(FILE* zip_File, Huffman* tree){
+void* comeback_tree(FILE* zip_File, Huffman* tree){
   unsigned char ch;
   fread(&ch,sizeof(unsigned char), 1 , zip_File);
 
   if(ch == '*'){
-    tree = create_node_tree(ch,0);
+    tree = (Huffman*)create_node_tree(ch,0);
 
-    tree->left = comeback_tree(zip_File, tree->left);
-    tree->right = comeback_tree(zip_File, tree->right);
+    tree->left = (Huffman*)comeback_tree(zip_File, tree->left);
+    tree->right = (Huffman*)comeback_tree(zip_File, tree->right);
   }
   else{
     if(ch == '\\'){
       fread(&ch, sizeof(unsigned char), 1, zip_File);
-      tree = create_node_tree(ch, 0);
+      tree = (Huffman*)create_node_tree(ch, 0);
     }
     else 
-    tree = create_node_tree(ch,0);
+    tree = (Huffman*)create_node_tree(ch,0);
   }
     
   
