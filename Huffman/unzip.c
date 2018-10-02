@@ -77,19 +77,19 @@ void unzip_file(){
   char zip_file_name[Max_string];
   char unzip_file_name[Max_string];
 
-  printf(" Digite o nome do arquivo compactado.\n\n Exemplo: arquivo.huff\n > ");
+  printf(" Enter the name of the compressed file.\n\n Like this: filename.huff\n > ");
   scanf("%[^\n]s", zip_file_name);
   getchar();
   //printf("[%s]\n", zip_file_name);
   zip_file = fopen(zip_file_name, "rb");
 
   while((!try_open_file(zip_file)) || (!checking_file(zip_file_name))){
-    printf(" Erro na abertura do arquivo!\n\n");
+    printf("Error opening file!\n\n");
 
     if(!checking_file(zip_file_name)){
-      printf(" O arquivo digitado não possui extensão .huff\nEntre com um arquivo válido.\n\n");
+      printf(" The file you entered does not have a .huff extension.\nEnter a valid file.\n\n");
     }
-    printf(" Digite o nome do arquivo compactado:\n\n Exemplo: arquivo.huff\n > ");
+    printf(" Enter the name of the compressed file.\n\n Like this: filename.huff\n > ");
        scanf("%[^\n]s", zip_file_name);
        getchar();
 
@@ -97,11 +97,11 @@ void unzip_file(){
 
   }
 
-  printf("\n Digite o nome do arquivo de saída:\n > ");
+  printf("\n Enter the name of the output file (with the extension):\n > ");
   scanf("%[^\n]s", unzip_file_name);
   getchar();
 
-  printf(" Aguarde... o arquivo está sendo descompactado... \n\n");
+  printf(" Please wait ... the file is being unzipped ...\n\n");
 
   unsigned char size_trash;
   unsigned char size_tree;
@@ -115,20 +115,19 @@ void unzip_file(){
   size_trash = (size_trash >> 5);
 
   trash_temp = size_trash;
-  (*tree_temp) = size_tree;
 
   Huffman* tree = (Huffman*)create_tree_node();
   tree = (Huffman*)comeback_tree(zip_file, tree);
 
   //print_preorder_tree(tree);
-
+  (*tree_temp) = altura(tree);
   unzip_file = fopen(unzip_file_name, "wb");
   comeback_original( zip_file, unzip_file, tree, trash_temp);
 
   fclose(zip_file);
   fclose(unzip_file);
 
-  printf("\n Arquivo descompactado!\n\n");
+  printf("\n %s created, unzipped from %s\n\n", unzip_file_name, zip_file_name);
   printf("Size of Tree: %d  ////", (*tree_temp));
   printf("  Size of Trash: %d\n", trash_temp);
 

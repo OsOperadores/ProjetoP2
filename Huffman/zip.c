@@ -45,7 +45,7 @@ void print_zip_at_file(FILE* normal_file, FILE* zip_File, unsigned char home[][2
 
   unsigned char ch = 0; // ch to print on file(00000000)
   unsigned char ch_help; // ch_help to read the zip_file
-  short int index = 0; // Control the position of bits to byte
+  int index = 0; // Control the position of bits to byte
   int str_index = 0; // Control a position of characters that have at hash table
 
   rewind(normal_file);  // Comeback to the initial position of file
@@ -75,7 +75,7 @@ void print_zip_at_file(FILE* normal_file, FILE* zip_File, unsigned char home[][2
   rewind(zip_File);
   fwrite(&size_trash, sizeof(unsigned char), 1, zip_File); // Write the size of trash on file
   fwrite(&tree_size_to_file, sizeof(unsigned char), 1, zip_File); // Write the size of Huffman tree on file
-  size_trash = size_trash >> 5;
+  size_trash = (8 - index) >> 5;
   (*trash) = size_trash;
   
   return ;
@@ -86,21 +86,34 @@ void zip_file(){
   FILE* normal_file = NULL; // File that we want to compress
   FILE* zip_file = NULL;    // File compressed
 
-  char normal_file_name[Max_string];  // String with the namor of normal file
+  char normal_file_name[Max_string];  // String with the name of normal file
   char zip_file_name[Max_string];     // String with the name of compressed file
-  char *pch;
+  char *pch = NULL;
 
   int i;
 
   unsigned int priority_array[Max_array]; // Array of normal file with priority of bytes
 
-  for(i=0; i < 256; i++){
+  for(i=0; i < Max_array; i++){
     priority_array[i] = 0;
   }
-  printf("Digite o nome do arquivo que deseja comprimir (com a extensão):\n\n");
-  printf("Exemplo: example.txt\n > ");
+  printf("Enter the name of the file you want to compress (with the extension):\n\nLike this: example.txt\n > ");
   scanf("%[^\n]s", normal_file_name);
   getchar();
+
+  normal_file = fopen(normal_file_name, "rb");
+
+  while(!try_open_file(normal_file)){
+    getchar();    //Clear buffer
+
+    printf("Enter the name of the file you want to compress (with the extension):\n\n");
+    printf("Like this: example.txt\n > ");
+    scanf("%[^\n]s", normal_file_name);
+
+    normal_file = fopen(normal_file_name, "rb");
+
+  }
+
   //printf("%s\n", normal_file_name);
   strcpy(zip_file_name, normal_file_name);
   pch = strrchr(zip_file_name,'.'); // Returns a pointer to the last occurrence of character in the C string str.
@@ -112,19 +125,6 @@ void zip_file(){
   zip_file_name[(pch-zip_file_name+5)] = '\0' ;
   //strcat(zip_file_name, ".huff");
   //printf("%s\n", zip_file_name);
-
-  normal_file = fopen(normal_file_name, "rb");
-
-  while(!try_open_file(normal_file)){
-    getchar();    //Clear buffer
-
-    printf("Digite o nome do arquivo que deseja comprimir: \n\n");
-    printf("Exemplo: example.txt\n > ");
-    scanf("%[^\n]s", normal_file_name);
-
-    normal_file = fopen(normal_file_name, "rb");
-
-  }
 
   printf("Wait a minute...\n\n");
 
@@ -152,9 +152,10 @@ void zip_file(){
   create_huffman_header(zip_file,tree,size_tree); // Create header
   print_zip_at_file(normal_file,zip_file, home, *size_tree, trash); //Write the compress file
 
-  printf("\n Arquivo compactado!\n\n");
+  printf("\n %s created!\n", zip_file_name);
   //print_preorder_tree(tree);
   printf("\n");
+  (*size_tree) = altura(tree);
   printf("Size of tree: %d  ////", (*size_tree));
   printf("  Size of Trash: %d\n", (*trash));
   fclose(normal_file);

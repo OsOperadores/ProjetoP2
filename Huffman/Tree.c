@@ -25,8 +25,8 @@ void* create_tree_node(){
 // Create one node for new dad tree.
 void* create_daddy_node(Huffman *one, Huffman *two){
   Huffman *daddy_node = (Huffman*)create_node_tree('*', one->priority + two->priority); // Save the dad sub-tree as "*"
-  daddy_node->left = two;
-  daddy_node->right = one;
+  daddy_node->left = one;
+  daddy_node->right = two;
   daddy_node->next = NULL;
   return daddy_node;
 }
@@ -65,7 +65,7 @@ void print_at_home(unsigned char home[][256], unsigned char current[], unsigned 
 }
 
 void create_hash_table(unsigned char home[][256], unsigned char current[], Huffman* tree, int status){
-  if(tree->left == NULL && tree->right ==NULL){
+  if(tree->left == NULL && tree->right == NULL){
     print_at_home(home,current,tree->ch,status);
     return ;
   }
@@ -105,6 +105,20 @@ void print_tree_in_file(Huffman* tree,int* size_tree, FILE* file){
     if (tree->right != NULL) {
         print_tree_in_file(tree->right, size_tree, file);
     }
+}
+
+int maior(int a, int b){
+    if(a > b)
+        return a;
+    else
+        return b;
+}
+
+int altura(Huffman *pRaiz){
+   if((pRaiz == NULL) || (pRaiz->left == NULL && pRaiz->right == NULL))
+       return 0;
+   else
+       return 1 + maior(altura(pRaiz->left), altura(pRaiz->right));
 }
 
 void print_preorder_tree(Huffman * tree){
