@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-#define MAX_HEAP_SIZE 10000  //Heap com 10 elementos
+#define MAX_HEAP_SIZE 10000  //Size of Heap
 #define INFINITY_NEGATIVO -100
 
 struct heap {
