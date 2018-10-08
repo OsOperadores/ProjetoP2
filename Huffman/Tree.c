@@ -85,17 +85,14 @@ void print_tree_in_file(Huffman* tree,int* size_tree, FILE* file){
         if (tree->ch == '\\' || tree->ch == '*') {
 
             unsigned char ch = '\\';
-            (*size_tree)++;
             fwrite(&ch, sizeof(unsigned char), 1, file);
         }
 
-        (*size_tree)++;
         fwrite(&tree->ch, sizeof(unsigned char), 1, file);
 
         return;
     }
 
-    (*size_tree)++;
     fwrite(&tree->ch, sizeof(unsigned char), 1, file);
 
     if (tree->left != NULL) {

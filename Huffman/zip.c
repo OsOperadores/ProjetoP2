@@ -145,7 +145,7 @@ void zip_file(){
   int* size_tree = (int*) malloc(sizeof(int)); //Pointer to get tree_size
   int* trash = (int*) malloc(sizeof(int));
   (*trash) = 0;
-  (*size_tree) = 0;
+  (*size_tree) = altura(tree);
   
   zip_file = fopen(zip_file_name, "wb");   // Create the file with mode binary write
 
@@ -155,8 +155,7 @@ void zip_file(){
   printf("\n %s created!\n", zip_file_name);
   //print_preorder_tree(tree);
   printf("\n");
-  (*size_tree) = altura(tree);
-  printf("Size of tree: %d  ////", (*size_tree));
+  printf("Size of tree: %d  ///", (*size_tree));
   printf("  Size of Trash: %d\n", (*trash));
   fclose(normal_file);
   fclose(zip_file);
