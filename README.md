@@ -1,7 +1,7 @@
 # ProjetoP2
 Criação do Projeto de P2, pelos alunos Aristoteles, Alef, João Muniz e Mateus Monteiro(Yoda).
 
-1) Seminário: Árvore B;
+1) Seminário Árvore 2-3-4;;
 
 2) Codificação de Huffman;
 
